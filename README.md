@@ -14,6 +14,6 @@ Also makes use of [nox771's i2c_t3 enhanced Teensy 3 Wire library](https://githu
 
 TODO 2015-10-25: Refactor and clean up Processing visualizer.
 
-#####Screenshot
+##### Screenshot
 
 ![Alt text](https://raw.githubusercontent.com/robinvanemden/MLX90621_Arduino_Processing/master/screenshot.gif?raw=true "screenshot")
