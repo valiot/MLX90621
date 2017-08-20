@@ -49,7 +49,7 @@ void loop(){
   }
   Serial.print("\n");
 
-  delay(31);
+  delay(32);
 };
 
 
