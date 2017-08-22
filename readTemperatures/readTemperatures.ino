@@ -29,11 +29,11 @@ MLX90621 sensor; // create an instance of the Sensor class
 void setup(){ 
   Serial.begin(19200);
   Serial.println(F("trying to initialize sensor..."));
-  sensor.initialise (16); // start the thermo cam with 8 frames per second
+  sensor.initialise (4); // start the thermo cam with 4 frames per second
   Serial.println(F("sensor initialized!"));
 }
 void loop(){
-  sensor.measure(); //get new readings from the sensor
+  sensor.measure(true); //get new readings from the sensor
   
   for(int y=0;y<4;y++){ //go through all the rows
     Serial.print("[");
