@@ -6264,10 +6264,10 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <parts>
 <part name="J1" library="SparkFun-Boards" deviceset="ARDUINO_R3_SHIELD" device=""/>
 <part name="FRAME1" library="frames" deviceset="A3L-LOC" device=""/>
-<part name="C1" library="adafruit" deviceset="C-US" device="C0603"/>
-<part name="C2" library="adafruit" deviceset="C-US" device="C0603"/>
-<part name="R1" library="adafruit" deviceset="R-US_" device="R0603"/>
-<part name="R2" library="adafruit" deviceset="R-US_" device="R0603"/>
+<part name="C1" library="adafruit" deviceset="C-US" device="C0603" value="100n"/>
+<part name="C2" library="adafruit" deviceset="C-US" device="C0603" value="100n"/>
+<part name="R1" library="adafruit" deviceset="R-US_" device="R0603" value="10k"/>
+<part name="R2" library="adafruit" deviceset="R-US_" device="R0603" value="10k"/>
 <part name="U$1" library="melexis" deviceset="MLX90621" device="BAD"/>
 <part name="U$2" library="melexis" deviceset="ZXCL260" device=""/>
 <part name="GND1" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
@@ -6295,6 +6295,9 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <part name="U$4" library="mouse-bites" deviceset="MOUSE-BITES-4" device=""/>
 <part name="GND8" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="P+7" library="supply1" deviceset="VCC" device=""/>
+<part name="U$5" library="mouse-bites" deviceset="MOUSE-BITES-4" device=""/>
+<part name="U$6" library="mouse-bites" deviceset="MOUSE-BITES-4" device=""/>
+<part name="U$7" library="mouse-bites" deviceset="MOUSE-BITES-4" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6334,6 +6337,9 @@ Standard 4-pin 0.1" header. Use with straight break away headers (SKU : PRT-0011
 <instance part="U$4" gate="G$1" x="152.4" y="99.06"/>
 <instance part="GND8" gate="1" x="149.86" y="83.82"/>
 <instance part="P+7" gate="VCC" x="149.86" y="101.6"/>
+<instance part="U$5" gate="G$1" x="81.28" y="43.18"/>
+<instance part="U$6" gate="G$1" x="81.28" y="25.4"/>
+<instance part="U$7" gate="G$1" x="99.06" y="25.4"/>
 </instances>
 <busses>
 </busses>
