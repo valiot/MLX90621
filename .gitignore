@@ -214,7 +214,11 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+#BARUC
 visualizeTemperatures/*.txt
 *.gif
 *.jpg
+*.b#*
+*.s#*
+*.l#*
 */gerber/
