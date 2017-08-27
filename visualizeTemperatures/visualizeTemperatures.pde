@@ -92,7 +92,7 @@ void setup() {
 
   findSerialPort(); 
   try {
-    serialConnection = new Serial(this, Serial.list()[portNumber], 19200);  
+    serialConnection = new Serial(this, Serial.list()[portNumber], 115200);//19200);  
     serialConnection.bufferUntil('\n');
   } 
   catch (RuntimeException e) {
