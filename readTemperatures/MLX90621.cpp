@@ -75,6 +75,11 @@ void MLX90621::setConfiguration() {
 	default:
 		Hz_LSB = 0b00111110;
 	}
+  //Resolution test:
+  uint8_t res = 0b01; //elige resolucion (0b00 - 0b11)
+  bitWrite(Hz_LSB, 5, (res >> 1) & 1);
+  bitWrite(Hz_LSB, 4, (res >> 0) & 1);
+  
 	byte defaultConfig_H = 0b01000110;  //kmoto: See data sheet p.11 and 25
 	Wire.beginTransmission(0x60);
 	Wire.write(0x03);
@@ -85,7 +90,12 @@ void MLX90621::setConfiguration() {
 	Wire.endTransmission();
 
 	//Read the resolution from the config register
-	resolution = (readConfig() & 0x30) >> 4;
+  uint16_t config_actual = readConfig();
+	resolution = (config_actual & 0x30) >> 4;
+  Serial.print("Res=");
+  Serial.println(resolution, BIN);
+  Serial.print("Cfg=");
+  Serial.println(config_actual, BIN);
 }
 
 void MLX90621::readEEPROM() { // Read in blocks of 32 bytes to accomodate Wire library
