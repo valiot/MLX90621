@@ -149,6 +149,7 @@ void MLX90621::preCalculateConstants() {
 }
 
 void MLX90621::calculateTO() {
+  //emissivity = 0.4;
 	float v_cp_off_comp = (float) cpix - (a_cp + b_cp * (Tambient - 25.0));
 	tak4 = pow((float) Tambient + 273.15, 4.0);
 	minTemp = NULL, maxTemp = NULL;
@@ -165,7 +166,7 @@ void MLX90621::calculateTO() {
 		alpha_comp = (alpha_ij - tgc * alpha_cp);  	// For my MLX90621 the ksta calibrations were 0
 													// so I can ignore them and save a few cycles
 		v_ir_comp = v_ir_tgc_comp / emissivity;
-		float temperature = pow((v_ir_comp / alpha_comp) + tak4, 1.0 / 4.0) - 274.15;
+		float temperature = pow((v_ir_comp / alpha_comp) + tak4, 1.0 / 4.0) - 273.15;
 
 		temperatures[i] = temperature;
 		if (minTemp == NULL || temperature < minTemp) {
