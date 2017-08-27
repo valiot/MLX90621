@@ -52,9 +52,17 @@ void loop(){
     if (y<3)Serial.print("~"); 
   }
   Serial.print("\n");
-
   delay(32);
 };
+
+/*
+long startTime = micros();
+//Measured stuff
+long elapsed = micros() - startTime;
+Serial.print("measure time = ");
+Serial.print((float)elapsed/1000.0);
+Serial.println("ms");
+*/
 
 
 
