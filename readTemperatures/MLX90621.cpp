@@ -12,6 +12,7 @@
 void MLX90621::initialise(int refrate) {
 	refreshRate = refrate;
 	Wire.begin();
+  Wire.setClock(400000L); //Trabajar a 400kHz en vez de 100
 	delay(5);
 	readEEPROM();
 	writeTrimmingValue();
@@ -26,11 +27,11 @@ void MLX90621::measure(bool calculate_temps) {
 		setConfiguration();
 	}
 	readPTAT();
-	readIR();
+	readIR(); //5ms
 	if(calculate_temps){
 		calculateTA();
 		readCPIX();
-		calculateTO();
+    calculateTO(); //41ms
 	}
 
 }
