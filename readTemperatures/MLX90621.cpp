@@ -265,6 +265,6 @@ uint16_t MLX90621::readConfig() {
 //Poll the MLX90621 for its current status
 //Returns true if the POR/Brown out bit is set
 boolean MLX90621::checkConfig() {
-	bool check = !((readConfig() & 0x0400) >> 10);
+	bool check = !((readConfig() & 0x0400) >> POR_TEST);
 	return check;
 }
