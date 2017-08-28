@@ -9,15 +9,27 @@
  */
 #include "MLX90621.h"
 
-void MLX90621::initialise(int refrate) {
-	refreshRate = refrate;
-	Wire.begin();
+void MLX90621::setRefreshRate(uint8_t refrate){
+  refreshRate = refrate & 0b1111; //Solo considera ultimos 4 bits
+}
+
+void MLX90621::setResolution(uint8_t res){
+  resolution = res & 0b11;
+  resolution_comp = pow(2.0, (3 - resolution));
+}
+
+void MLX90621::setEmissivity(float ems){
+  emissivity = ems <= 1.0 ? ems : 1.0;
+}
+
+void MLX90621::initialize() {
+  Wire.begin();
   Wire.setClock(400000L); //Trabajar a 400kHz en vez de 100
-	delay(5);
-	readEEPROM();
-	writeTrimmingValue();
-	setConfiguration();
-	preCalculateConstants();
+  delay(5);
+  readEEPROM();
+  writeTrimmingValue();
+  setConfiguration();
+  preCalculateConstants();
 }
 
 void MLX90621::measure(bool calculate_temps) {
@@ -36,7 +48,7 @@ void MLX90621::measure(bool calculate_temps) {
 
 }
 
-float MLX90621::getTemperature(int num) {
+float MLX90621::getTemperature(uint8_t num) {
 	if ((num >= 0) && (num < 64)) {
 		return temperatures[num];
 	} else {
@@ -49,49 +61,25 @@ float MLX90621::getAmbient() {
 }
 
 void MLX90621::setConfiguration() {
-	byte Hz_LSB;
-	switch (refreshRate) {
-	case 0:
-		Hz_LSB = 0b00111111;
-		break;
-	case 1:
-		Hz_LSB = 0b00111110;
-		break;
-	case 2:
-		Hz_LSB = 0b00111101;
-		break;
-	case 4:
-		Hz_LSB = 0b00111100;
-		break;
-	case 8:
-		Hz_LSB = 0b00111011;
-		break;
-	case 16:
-		Hz_LSB = 0b00111010;
-		break;
-	case 32:
-		Hz_LSB = 0b00111001;
-		break;
-	default:
-		Hz_LSB = 0b00111110;
-	}
-  //Resolution test:
-  uint8_t res = 0b01; //elige resolucion (0b00 - 0b11)
-  bitWrite(Hz_LSB, 5, (res >> 1) & 1);
-  bitWrite(Hz_LSB, 4, (res >> 0) & 1);
+  //Elige taza de refresco
+	byte cfg_LSB = refreshRate; //0bxxxxNNNN
+  //elige resolucion (0b00 - 0b11)
+  bitWrite(cfg_LSB, 5, (resolution >> 1) & 1); //0bxxxNnnnn
+  bitWrite(cfg_LSB, 4, (resolution >> 0) & 1); //0bxxNnnnnn
   
 	byte defaultConfig_H = 0b01000110;  //kmoto: See data sheet p.11 and 25
 	Wire.beginTransmission(0x60);
 	Wire.write(0x03);
-	Wire.write((byte) Hz_LSB - 0x55);
-	Wire.write(Hz_LSB);
+	Wire.write((byte) cfg_LSB - 0x55);
+	Wire.write(cfg_LSB);
 	Wire.write(defaultConfig_H - 0x55);
 	Wire.write(defaultConfig_H);
 	Wire.endTransmission();
 
 	//Read the resolution from the config register
   uint16_t config_actual = readConfig();
-	resolution = (config_actual & 0x30) >> 4;
+	uint8_t real_resolution = (config_actual & 0x30) >> 4;
+  setResolution(real_resolution);
   Serial.print("Res=");
   Serial.println(resolution, BIN);
   Serial.print("Cfg=");
@@ -126,8 +114,7 @@ void MLX90621::calculateTA(void) {
 }
 
 void MLX90621::preCalculateConstants() {
-	resolution_comp = pow(2.0, (3 - resolution));
-	emissivity = unsigned_16(eepromData[CAL_EMIS_H], eepromData[CAL_EMIS_L]) / 32768.0;
+	//emissivity = unsigned_16(eepromData[CAL_EMIS_H], eepromData[CAL_EMIS_L]) / 32768.0;
 	a_common = twos_16(eepromData[CAL_ACOMMON_H], eepromData[CAL_ACOMMON_L]);
 	a_i_scale = (int16_t)(eepromData[CAL_AI_SCALE] & 0xF0) >> 4;
 	b_i_scale = (int16_t) eepromData[CAL_BI_SCALE] & 0x0F;
