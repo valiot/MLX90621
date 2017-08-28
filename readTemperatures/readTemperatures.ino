@@ -51,7 +51,7 @@ void setup(){
   digitalWrite(13, LOW);
   //Serial.println(F("trying to initialize sensor..."));
   sensor.setRefreshRate(RATE_4HZ);
-  sensor.setResolution(RES_18bit);
+  sensor.setResolution(RES_17bit);
   sensor.setEmissivity(1.0);
   sensor.initialize (); // start the thermo cam
   //Serial.println(F("sensor initialized!"));
