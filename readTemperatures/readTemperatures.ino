@@ -26,19 +26,7 @@
 
 MLX90621 sensor; // create an instance of the Sensor class
 
-void setup(){ 
-  Serial.begin(115200); //170ms a 19k2, 28ms a 115k2
-  //Parpadea LED al reiniciarse el arduino
-  pinMode(13, OUTPUT);
-  for (int i = 0; i < 10; i++) 
-    digitalWrite(13, !digitalRead(13));
-  digitalWrite(13, LOW);
-  //Serial.println(F("trying to initialize sensor..."));
-  sensor.initialise (8); // start the thermo cam with 4 frames per second
-  //Serial.println(F("sensor initialized!"));
-}
-void loop(){
-  sensor.measure(true); //get new readings from the sensor
+void sendTemperatures(){
   for(int y=0;y<4;y++){ //go through all the rows
     Serial.print("[");
     
@@ -52,6 +40,25 @@ void loop(){
     if (y<3)Serial.print("~"); 
   }
   Serial.print("\n");
+}
+
+void setup(){ 
+  Serial.begin(115200); //170ms a 19k2, 28ms a 115k2
+  //Parpadea LED al reiniciarse el arduino
+  pinMode(13, OUTPUT);
+  for (int i = 0; i < 10; i++) 
+    digitalWrite(13, !digitalRead(13));
+  digitalWrite(13, LOW);
+  //Serial.println(F("trying to initialize sensor..."));
+  sensor.setRefreshRate(RATE_4HZ);
+  sensor.setResolution(RES_18bit);
+  sensor.setEmissivity(1.0);
+  sensor.initialize (); // start the thermo cam
+  //Serial.println(F("sensor initialized!"));
+}
+void loop(){
+  sensor.measure(true); //get new readings from the sensor
+  sendTemperatures();
   delay(32);
 };
 
