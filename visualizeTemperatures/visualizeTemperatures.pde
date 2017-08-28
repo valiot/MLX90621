@@ -60,6 +60,7 @@ String pressedSpace = "";
 //Min = morado, max = rojo
 float min = 32.0;
 float max = 40.0;
+float gradMax = 1.5;
 
 void setup() {
    
@@ -224,14 +225,9 @@ void draw() {
           quadrantLong[3][RB]=longValue;
           RB++;
         }
+        //GRADIENTE
         double nowValue = longValue - shortValue;
-        if (nowValue<-0.4) { 
-          fill(#FF0000);
-        } else if (nowValue>0.4) { 
-          fill(#0000FF);
-        } else { 
-          fill(#AAAAAA);
-        }
+        fill(gradientColor((float)nowValue, gradMax));
         rect(0, 0, 30, 30);
         textSize(10);
         fill(0);
@@ -319,6 +315,27 @@ color getColor(float val, float min, float max)
   double S = 0.9; 
   double B = 0.9; 
 
+  return color((float)(H), (float)(S), (float)(B));
+}
+
+color gradientColor(float val, float max){
+  double H, S, B;
+  colorMode(HSB, 1.0);
+  if(val < 0.0){
+    H = 0.6;
+    S = (double)map(abs(val), 0.0, max, 0.0, 1.0);
+    B = 0.9;
+  }
+  else if (val > 0.0){
+    H = 0.0;
+    S = (double)map(val, 0.0, max, 0.0, 1.0);
+    B = 0.9;
+  }
+  else {
+    H = 0.0;
+    S = 0.0;
+    B = 0.9;
+  }
   return color((float)(H), (float)(S), (float)(B));
 }
 
