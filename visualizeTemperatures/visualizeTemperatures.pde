@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public static final boolean  WRITE_TO_FILE = true;
+public static final boolean  WRITE_TO_FILE = false;
 
 PrintWriter output;
 Serial serialConnection;
@@ -58,7 +58,7 @@ boolean spaceCheck = false;
 String pressedSpace = "";
 
 //Min = morado, max = rojo
-float min = 32.0;
+float min = 20.0;
 float max = 40.0;
 float gradMax = 1.5;
 
