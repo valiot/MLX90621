@@ -90,7 +90,7 @@ void setup() {
     sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS");  
     output = createWriter(sdf.format(new Date())+"_output.txt");
   }
-  size(900, 600);
+  size(700, 600);
 
   waitFirstNewline = false;
   sensorReading="";
@@ -175,24 +175,13 @@ void draw() {
     }
   }
 
-
-
-
+//Imagen filtrada
   translate(-640, 185);
-
   img.filter(BLUR);
   img.updatePixels();
-
-
-
   pushMatrix();
   scale(-1.0, 1.0);
   image(img, -630, 0, 630, 150);
-  img.filter(GRAY);
-  img.filter(THRESHOLD);
-
-  image(img, -665-150, 0, 150, 150);
-
   popMatrix();
 
   translate(0, 185);
@@ -205,26 +194,6 @@ void draw() {
       for (int j = 0; j < 4; j++) {
         double longValue = sma2Dlong[j][i].compute(drawTemperatures2D[j][i]);
         double shortValue = sma2D[j][i].compute(drawTemperatures2D[j][i]);
-        if (j<2 && i<8) {
-          quadrant[0][LT]=shortValue; 
-          quadrantLong[0][LT]=longValue;
-          LT++;
-        }
-        if (j<2 && i>=8) {
-          quadrant[1][RT]=shortValue; 
-          quadrantLong[1][RT]=longValue;
-          RT++;
-        }
-        if (j>=2 && i<8) {
-          quadrant[2][LB]=shortValue; 
-          quadrantLong[2][LB]=longValue;
-          LB++;
-        }
-        if (j>=2 && i>=8) {
-          quadrant[3][RB]=shortValue; 
-          quadrantLong[3][RB]=longValue;
-          RB++;
-        }
         //GRADIENTE
         double nowValue = longValue - shortValue;
         fill(gradientColor((float)nowValue, gradMax));
@@ -238,47 +207,6 @@ void draw() {
       popMatrix();
       translate(40, 0);
     }
-  }
-
-  translate(105, -370);
-  if (drawTemperatures2D!=null) {
-    pushMatrix();
-    for (int j = 0; j < 4; j++) {
-      fill(getColor((float)mean(quadrant[j]), min, max));
-      rect(0, 0, 70, 70);
-      textSize(10);
-      fill(0);
-      temperatureToString = (double) Math.round(mean(quadrant[j]) * 10) / 10;
-      text(temperatureToString.toString(), 4, 20);
-      if (j==0)translate(-80, 0);
-      if (j==1)translate(80, 80);
-      if (j==2)translate(-80, 0);
-    }
-    popMatrix();
-  }
-
-  translate(0, 370);
-  if (drawTemperatures2D!=null) {
-    pushMatrix();
-    for (int j = 0; j < 4; j++) {
-      double averagedValues = (mean(quadrantLong[j]) - mean(quadrant[j]));
-      if (averagedValues<-0.2) { 
-        fill(#FF0000);
-      } else if (averagedValues>0.2) { 
-        fill(#0000FF);
-      } else { 
-        fill(#AAAAAA);
-      }
-      rect(0, 0, 70, 70);
-      textSize(10);
-      fill(0);
-      temperatureToString = -(double) Math.round(averagedValues * 10) / 10;
-      text(temperatureToString.toString(), 4, 20);
-      if (j==0)translate(-80, 0);
-      if (j==1)translate(80, 80);
-      if (j==2)translate(-80, 0);
-    }
-    popMatrix();
   }
 }
 
