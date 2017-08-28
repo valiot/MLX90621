@@ -57,6 +57,10 @@ double[][] quadrantLong = new double[4][16];
 boolean spaceCheck = false;
 String pressedSpace = "";
 
+//Min = morado, max = rojo
+float min = 32.0;
+float max = 40.0;
+
 void setup() {
    
   // log global keypress
@@ -131,6 +135,7 @@ void serialEvent (Serial serialConnection) {
 }
 
 void draw() {
+  
   background(0);
   translate(35, 35);
   fill(255);
@@ -155,8 +160,8 @@ void draw() {
       for (int j = 0; j < 4; j++) {
 
 
-        img.pixels[i+j*16]=getColor(((drawTemperatures2D[j][i]-33)/7));
-        fill(getColor(((drawTemperatures2D[j][i]-33)/7)));
+        img.pixels[i+j*16]=getColor((float)drawTemperatures2D[j][i], min, max);
+        fill(getColor((float)drawTemperatures2D[j][i], min, max));
         rect(0, 0, 30, 30);
         textSize(10);
         fill(0);
@@ -243,7 +248,7 @@ void draw() {
   if (drawTemperatures2D!=null) {
     pushMatrix();
     for (int j = 0; j < 4; j++) {
-      fill(getColor(((mean(quadrant[j])-33)/7)));
+      fill(getColor((float)mean(quadrant[j]), min, max));
       rect(0, 0, 70, 70);
       textSize(10);
       fill(0);
@@ -307,12 +312,12 @@ double[][] parseInput(String input) {
   return temperatures2D;
 }
 
-color getColor(double power)
+color getColor(float val, float min, float max)
 {
   colorMode(HSB, 1.0);
-  H = (1-power) * 0.4; 
-  S = 0.9; 
-  B = 0.9; 
+  double H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
+  double S = 0.9; 
+  double B = 0.9; 
 
   return color((float)(H), (float)(S), (float)(B));
 }
