@@ -57,11 +57,35 @@
 //Bits within configuration register 0x92
 #define POR_TEST 10
 
+//Refresh rate options:
+#define RATE_512HZ  0b0000
+//#define RATE_512HZ  0b0001
+//#define RATE_512HZ  0b0010
+//#define RATE_512HZ  0b0011
+//#define RATE_512HZ  0b0100
+//#define RATE_512HZ  0b0101
+#define RATE_256HZ  0b0110
+#define RATE_128HZ  0b0111
+#define RATE_64HZ   0b1000
+#define RATE_32HZ   0b1001
+#define RATE_16HZ   0b1010
+#define RATE_8HZ    0b1011
+#define RATE_4HZ    0b1100
+#define RATE_2HZ    0b1101
+#define RATE_1HZ    0b1110
+#define RATE_0_5HZ  0b1111
+
+//Resolution options:
+#define RES_15bit   0b00
+#define RES_16bit   0b01
+#define RES_17bit   0b10
+#define RES_18bit   0b11
+
 class MLX90621 {
 private:
 	/* Variables */
 	byte refreshRate; //Set this value to your desired refresh frequency
-
+  byte resolution; //Set this value to your desired resolution (0-3)
 	float temperatures[64]; //Contains the calculated temperatures of each pixel in the array
 	float Tambient; //Tracks the changing ambient temperature of the sensor
 
@@ -70,7 +94,6 @@ private:
 
 	/* Methods */
 	void readEEPROM();
-	void setConfiguration();
 	void writeTrimmingValue();
 	void calculateTA();
 	void readPTAT();
@@ -85,7 +108,7 @@ private:
 	boolean checkConfig();
 	float v_ir_off_comp, ksta, v_ir_tgc_comp, v_ir_comp, alpha_comp;
 	float tak4, resolution_comp;
-	int16_t a_common, a_i_scale, b_i_scale, k_t1_scale, k_t2_scale, resolution;
+	int16_t a_common, a_i_scale, b_i_scale, k_t1_scale, k_t2_scale;
 	uint8_t eepromData[256]; //Contains the full EEPROM reading from the MLX90621
 	float k_t1, k_t2, emissivity, tgc, alpha_cp, a_cp, b_cp, v_th;
 	uint16_t ptat;
@@ -93,10 +116,14 @@ private:
 	float a_ij, b_ij, alpha_ij;
 	float minTemp, maxTemp;
 public:
+  void setRefreshRate(uint8_t refrate = RATE_1HZ);
+  void setResolution(uint8_t res = RES_18bit);
+  void setEmissivity(float ems);
+  void setConfiguration();
 	int16_t irData[64]; //Contains the raw IR data from the sensor
-	void initialise(int);
+	void initialize();
 	void measure(bool);
-	float getTemperature(int num);
+	float getTemperature(uint8_t num);
 	float getAmbient();
 	float getMinTemp();
 	float getMaxTemp();

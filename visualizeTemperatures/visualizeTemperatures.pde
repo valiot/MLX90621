@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public static final boolean  WRITE_TO_FILE = true;
+public static final boolean  WRITE_TO_FILE = false;
 
 PrintWriter output;
 Serial serialConnection;
@@ -56,6 +56,11 @@ double[][] quadrant = new double[4][16];
 double[][] quadrantLong = new double[4][16];
 boolean spaceCheck = false;
 String pressedSpace = "";
+
+//Min = morado, max = rojo
+float min = 20.0;
+float max = 40.0;
+float gradMax = 1.5;
 
 void setup() {
    
@@ -85,14 +90,14 @@ void setup() {
     sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS");  
     output = createWriter(sdf.format(new Date())+"_output.txt");
   }
-  size(900, 600);
+  size(700, 600);
 
   waitFirstNewline = false;
   sensorReading="";
 
   findSerialPort(); 
   try {
-    serialConnection = new Serial(this, Serial.list()[portNumber], 19200);  
+    serialConnection = new Serial(this, Serial.list()[portNumber], 115200);//19200);  
     serialConnection.bufferUntil('\n');
   } 
   catch (RuntimeException e) {
@@ -131,6 +136,7 @@ void serialEvent (Serial serialConnection) {
 }
 
 void draw() {
+  
   background(0);
   translate(35, 35);
   fill(255);
@@ -155,8 +161,8 @@ void draw() {
       for (int j = 0; j < 4; j++) {
 
 
-        img.pixels[i+j*16]=getColor(((drawTemperatures2D[j][i]-33)/7));
-        fill(getColor(((drawTemperatures2D[j][i]-33)/7)));
+        img.pixels[i+j*16]=getColor((float)drawTemperatures2D[j][i], min, max);
+        fill(getColor((float)drawTemperatures2D[j][i], min, max));
         rect(0, 0, 30, 30);
         textSize(10);
         fill(0);
@@ -169,24 +175,13 @@ void draw() {
     }
   }
 
-
-
-
+//Imagen filtrada
   translate(-640, 185);
-
   img.filter(BLUR);
   img.updatePixels();
-
-
-
   pushMatrix();
   scale(-1.0, 1.0);
   image(img, -630, 0, 630, 150);
-  img.filter(GRAY);
-  img.filter(THRESHOLD);
-
-  image(img, -665-150, 0, 150, 150);
-
   popMatrix();
 
   translate(0, 185);
@@ -199,34 +194,9 @@ void draw() {
       for (int j = 0; j < 4; j++) {
         double longValue = sma2Dlong[j][i].compute(drawTemperatures2D[j][i]);
         double shortValue = sma2D[j][i].compute(drawTemperatures2D[j][i]);
-        if (j<2 && i<8) {
-          quadrant[0][LT]=shortValue; 
-          quadrantLong[0][LT]=longValue;
-          LT++;
-        }
-        if (j<2 && i>=8) {
-          quadrant[1][RT]=shortValue; 
-          quadrantLong[1][RT]=longValue;
-          RT++;
-        }
-        if (j>=2 && i<8) {
-          quadrant[2][LB]=shortValue; 
-          quadrantLong[2][LB]=longValue;
-          LB++;
-        }
-        if (j>=2 && i>=8) {
-          quadrant[3][RB]=shortValue; 
-          quadrantLong[3][RB]=longValue;
-          RB++;
-        }
+        //GRADIENTE
         double nowValue = longValue - shortValue;
-        if (nowValue<-0.4) { 
-          fill(#FF0000);
-        } else if (nowValue>0.4) { 
-          fill(#0000FF);
-        } else { 
-          fill(#AAAAAA);
-        }
+        fill(gradientColor((float)nowValue, gradMax));
         rect(0, 0, 30, 30);
         textSize(10);
         fill(0);
@@ -237,47 +207,6 @@ void draw() {
       popMatrix();
       translate(40, 0);
     }
-  }
-
-  translate(105, -370);
-  if (drawTemperatures2D!=null) {
-    pushMatrix();
-    for (int j = 0; j < 4; j++) {
-      fill(getColor(((mean(quadrant[j])-33)/7)));
-      rect(0, 0, 70, 70);
-      textSize(10);
-      fill(0);
-      temperatureToString = (double) Math.round(mean(quadrant[j]) * 10) / 10;
-      text(temperatureToString.toString(), 4, 20);
-      if (j==0)translate(-80, 0);
-      if (j==1)translate(80, 80);
-      if (j==2)translate(-80, 0);
-    }
-    popMatrix();
-  }
-
-  translate(0, 370);
-  if (drawTemperatures2D!=null) {
-    pushMatrix();
-    for (int j = 0; j < 4; j++) {
-      double averagedValues = (mean(quadrantLong[j]) - mean(quadrant[j]));
-      if (averagedValues<-0.2) { 
-        fill(#FF0000);
-      } else if (averagedValues>0.2) { 
-        fill(#0000FF);
-      } else { 
-        fill(#AAAAAA);
-      }
-      rect(0, 0, 70, 70);
-      textSize(10);
-      fill(0);
-      temperatureToString = -(double) Math.round(averagedValues * 10) / 10;
-      text(temperatureToString.toString(), 4, 20);
-      if (j==0)translate(-80, 0);
-      if (j==1)translate(80, 80);
-      if (j==2)translate(-80, 0);
-    }
-    popMatrix();
   }
 }
 
@@ -307,13 +236,34 @@ double[][] parseInput(String input) {
   return temperatures2D;
 }
 
-color getColor(double power)
+color getColor(float val, float min, float max)
 {
   colorMode(HSB, 1.0);
-  H = (1-power) * 0.4; 
-  S = 0.9; 
-  B = 0.9; 
+  double H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
+  double S = 0.9; 
+  double B = 0.9; 
 
+  return color((float)(H), (float)(S), (float)(B));
+}
+
+color gradientColor(float val, float max){
+  double H, S, B;
+  colorMode(HSB, 1.0);
+  if(val < 0.0){
+    H = 0.6;
+    S = (double)map(abs(val), 0.0, max, 0.0, 1.0);
+    B = 0.9;
+  }
+  else if (val > 0.0){
+    H = 0.0;
+    S = (double)map(val, 0.0, max, 0.0, 1.0);
+    B = 0.9;
+  }
+  else {
+    H = 0.0;
+    S = 0.0;
+    B = 0.9;
+  }
   return color((float)(H), (float)(S), (float)(B));
 }
 
