@@ -80,10 +80,10 @@ void MLX90621::setConfiguration() {
   uint16_t config_actual = readConfig();
 	uint8_t real_resolution = (config_actual & 0x30) >> 4;
   setResolution(real_resolution);
-  Serial.print("Res=");
-  Serial.println(resolution, BIN);
-  Serial.print("Cfg=");
-  Serial.println(config_actual, BIN);
+  //Serial.print("Res=");
+  //Serial.println(resolution, BIN);
+  //Serial.print("Cfg=");
+  //Serial.println(config_actual, BIN);
 }
 
 void MLX90621::readEEPROM() { // Read in blocks of 32 bytes to accomodate Wire library
