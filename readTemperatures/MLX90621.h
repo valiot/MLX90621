@@ -57,6 +57,30 @@
 //Bits within configuration register 0x92
 #define POR_TEST 10
 
+//Refresh rate options:
+#define RATE_512HZ  0b0000
+//#define RATE_512HZ  0b0001
+//#define RATE_512HZ  0b0010
+//#define RATE_512HZ  0b0011
+//#define RATE_512HZ  0b0100
+//#define RATE_512HZ  0b0101
+#define RATE_256HZ  0b0110
+#define RATE_128HZ  0b0111
+#define RATE_64HZ   0b1000
+#define RATE_32HZ   0b1001
+#define RATE_16HZ   0b1010
+#define RATE_8HZ    0b1011
+#define RATE_4HZ    0b1100
+#define RATE_2HZ    0b1101
+#define RATE_1HZ    0b1110
+#define RATE_0_5HZ  0b1111
+
+//Resolution options:
+#define RES_15bit   0b00
+#define RES_16bit   0b01
+#define RES_17bit   0b10
+#define RES_18bit   0b11
+
 class MLX90621 {
 private:
 	/* Variables */
