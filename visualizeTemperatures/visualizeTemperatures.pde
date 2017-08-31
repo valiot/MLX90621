@@ -34,12 +34,18 @@ import java.util.Date;
 
 public static final boolean  WRITE_TO_FILE = false;
 
+import controlP5.*;
+ControlP5 cp5;
+
+
 PrintWriter output;
 Serial serialConnection;
 String sensorReading;
 String[] serialString;  
 String serialCheck;  
-String portName = "eensy"; 
+String portName_w = "eensy"; 
+//String portName_m = "cu.usbmodem1411"; //cu.usbserial-AJ03MS39
+String portName_m = "cu.usbserial-AJ03MS39"; //
 int portNumber;  
 int serialIndex;  
 Double temperatureToString;
@@ -58,12 +64,11 @@ boolean spaceCheck = false;
 String pressedSpace = "";
 
 //Min = morado, max = rojo
-float min = 20.0;
-float max = 40.0;
-float gradMax = 1.5;
+float min = 80.0;
+float max = 100.0;
+float gradMax = 20;
 
 void setup() {
-   
   // log global keypress
   try {
     // Get the logger for "org.jnativehook" and set the level to warning.
@@ -141,6 +146,8 @@ void draw() {
   translate(35, 35);
   fill(255);
   noStroke();
+  //min = cp5.getController("Min").getValue();
+  //max = cp5.getController("Max").getValue();
   drawTemperatures2D = parseInput(sensorReading);
 
   if (drawTemperatures2D!=null) {
@@ -239,10 +246,22 @@ double[][] parseInput(String input) {
 color getColor(float val, float min, float max)
 {
   colorMode(HSB, 1.0);
-  double H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
-  double S = 0.9; 
-  double B = 0.9; 
-
+  double H = 0.0;
+  double S = 0.0; 
+  double B = 0.0;
+  
+  if(val<min)
+  {
+    H = 0;
+    S = 0; 
+    B = (double)min(map(val, 0, min, 0.75, 0.25), 0.75); 
+  }
+  else
+  {
+    H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
+    S = 0.9; 
+    B = 0.9; 
+  }
   return color((float)(H), (float)(S), (float)(B));
 }
 
@@ -268,11 +287,12 @@ color gradientColor(float val, float max){
 }
 
 void findSerialPort() {
-
   serialString = Serial.list();  
   for (int i = serialString.length - 1; i > 0; i--) {  
     serialCheck = serialString[i];  
-    serialIndex = serialCheck.indexOf(portName);  
+    serialIndex = serialCheck.indexOf(portName_m);  
+    if (serialIndex > -1) portNumber = i;
+    serialIndex = serialCheck.indexOf(portName_w);  
     if (serialIndex > -1) portNumber = i;
   }
 }    
@@ -288,7 +308,7 @@ public class SMA {
     this.period = period;
   }
 
-  public double compute(double num) {
+public double compute(double num) {
     sum += num;
     window.add(num);
     if (window.size() > period) {
