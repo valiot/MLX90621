@@ -222,3 +222,4 @@ visualizeTemperatures/*.txt
 *.s#*
 *.l#*
 */gerber/
+*/BOM/
