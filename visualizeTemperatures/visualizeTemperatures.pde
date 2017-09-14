@@ -34,10 +34,10 @@ import java.util.Date;
 
 public static final boolean  WRITE_TO_FILE = false;
 
-import controlP5.*;
-ControlP5 cp5;
-Slider s_max;
-Slider s_min;
+//import controlP5.*;
+//ControlP5 cp5;
+//Slider s_max;
+//Slider s_min;
 
 PrintWriter output;
 Serial serialConnection;
