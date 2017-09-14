@@ -34,12 +34,19 @@ import java.util.Date;
 
 public static final boolean  WRITE_TO_FILE = false;
 
+import controlP5.*;
+ControlP5 cp5;
+Slider s_max;
+Slider s_min;
+
 PrintWriter output;
 Serial serialConnection;
 String sensorReading;
 String[] serialString;  
 String serialCheck;  
-String portName = "eensy"; 
+String portName_w = "eensy"; 
+String portName_m = "cu.usbmodem1411"; //cu.usbserial-AJ03MS39
+String portName_m2 = "cu.usbserial-AJ03MS39"; //
 int portNumber;  
 int serialIndex;  
 Double temperatureToString;
@@ -58,12 +65,12 @@ boolean spaceCheck = false;
 String pressedSpace = "";
 
 //Min = morado, max = rojo
-float min = 20.0;
-float max = 40.0;
-float gradMax = 1.5;
+float min = 80.0;
+float max = 100.0;
+float gradMax = 20;
 
 void setup() {
-   
+  size(700, 600);
   // log global keypress
   try {
     // Get the logger for "org.jnativehook" and set the level to warning.
@@ -90,7 +97,6 @@ void setup() {
     sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS");  
     output = createWriter(sdf.format(new Date())+"_output.txt");
   }
-  size(700, 600);
 
   waitFirstNewline = false;
   sensorReading="";
@@ -136,11 +142,11 @@ void serialEvent (Serial serialConnection) {
 }
 
 void draw() {
-  
   background(0);
   translate(35, 35);
   fill(255);
   noStroke();
+  
   drawTemperatures2D = parseInput(sensorReading);
 
   if (drawTemperatures2D!=null) {
@@ -208,7 +214,15 @@ void draw() {
       translate(40, 0);
     }
   }
+  
+  textSize(12);
+  fill(1,0,1);
+  text("Min: ", -640,170);
+  text(int(min), -615,170);
+  text("Max: ", -580,170);
+  text(int(max), -555,170);
 }
+
 
 double[][] parseInput(String input) {
   String[] temperatureRows;
@@ -239,10 +253,22 @@ double[][] parseInput(String input) {
 color getColor(float val, float min, float max)
 {
   colorMode(HSB, 1.0);
-  double H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
-  double S = 0.9; 
-  double B = 0.9; 
-
+  double H = 0.0;
+  double S = 0.0; 
+  double B = 0.0;
+  
+  if(val<min)
+  {
+    H = 0;
+    S = 0; 
+    B = (double)min(map(val, 0, min, 0.75, 0.25), 0.75); 
+  }
+  else
+  {
+    H = (double)min(map(val, min, max, 0.8, 0.0), 0.8); //0.8=purple (min), 0.0 = red (max)
+    S = 0.9; 
+    B = 0.9; 
+  }
   return color((float)(H), (float)(S), (float)(B));
 }
 
@@ -268,11 +294,14 @@ color gradientColor(float val, float max){
 }
 
 void findSerialPort() {
-
   serialString = Serial.list();  
   for (int i = serialString.length - 1; i > 0; i--) {  
     serialCheck = serialString[i];  
-    serialIndex = serialCheck.indexOf(portName);  
+    serialIndex = serialCheck.indexOf(portName_m);  
+    if (serialIndex > -1) portNumber = i;
+    serialIndex = serialCheck.indexOf(portName_m2);  
+    if (serialIndex > -1) portNumber = i;
+    serialIndex = serialCheck.indexOf(portName_w);  
     if (serialIndex > -1) portNumber = i;
   }
 }    
@@ -288,7 +317,7 @@ public class SMA {
     this.period = period;
   }
 
-  public double compute(double num) {
+public double compute(double num) {
     sum += num;
     window.add(num);
     if (window.size() > period) {
@@ -307,4 +336,32 @@ public static double mean(double[] m) {
 
   double average = total / m.length;
   return average;
+}
+
+void keyPressed() {
+  if (key == CODED) {
+    if (keyCode == UP) {
+      min = min+1;
+    } else if (keyCode == DOWN) {
+      min = min-1;
+    } 
+    if (keyCode == RIGHT) {
+      max = max+1;
+    } else if (keyCode == LEFT) {
+      max = max-1;
+    } 
+  }
+ switch(key) {
+    case('d'):min=80;max=100;break;
+    case('D'):min=80;max=100;break;
+    case('1'):min=10;max=30;break;
+    case('2'):min=20;max=40;break;
+    case('3'):min=30;max=50;break;
+    case('4'):min=40;max=60;break;
+    case('5'):min=50;max=70;break;
+    case('6'):min=60;max=80;break;
+    case('7'):min=70;max=90;break;
+    case('8'):min=80;max=100;break;
+    case('9'):min=90;max=110;break; 
+  }
 }
