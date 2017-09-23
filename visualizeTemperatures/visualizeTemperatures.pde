@@ -47,6 +47,7 @@ String serialCheck;
 String portName_w = "eensy"; 
 String portName_m = "cu.usbmodem1411"; //cu.usbserial-AJ03MS39
 String portName_m2 = "cu.usbserial-AJ03MS39"; //
+String portName_win = "COM"; //
 int portNumber;  
 int serialIndex;  
 Double temperatureToString;
@@ -104,6 +105,7 @@ void setup() {
   findSerialPort(); 
   try {
     serialConnection = new Serial(this, Serial.list()[portNumber], 115200);//19200);  
+    
     serialConnection.bufferUntil('\n');
   } 
   catch (RuntimeException e) {
@@ -302,6 +304,8 @@ void findSerialPort() {
     serialIndex = serialCheck.indexOf(portName_m2);  
     if (serialIndex > -1) portNumber = i;
     serialIndex = serialCheck.indexOf(portName_w);  
+    if (serialIndex > -1) portNumber = i;
+    serialIndex = serialCheck.indexOf(portName_win);  
     if (serialIndex > -1) portNumber = i;
   }
 }    
