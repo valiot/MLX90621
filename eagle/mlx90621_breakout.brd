@@ -34,8 +34,8 @@
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="11" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
@@ -59,7 +59,7 @@
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
 <layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -201,17 +201,17 @@
 <wire x1="34.29" y1="53.0225" x2="34.29" y2="50.8" width="0" layer="20"/>
 <wire x1="10.795" y1="51.435" x2="11.7475" y2="51.435" width="0" layer="20"/>
 <wire x1="11.7475" y1="51.435" x2="13.335" y2="53.0225" width="0" layer="20"/>
-<dimension x1="35.56" y1="50.165" x2="33.02" y2="38.735" x3="39.116" y3="44.45" textsize="1.778" textratio="15" layer="51" dtype="vertical"/>
-<dimension x1="35.56" y1="38.735" x2="19.685" y2="38.735" x3="27.6225" y3="33.02" textsize="1.778" textratio="15" layer="51" dtype="vertical"/>
-<dimension x1="19.685" y1="38.735" x2="16.51" y2="36.83" x3="17.78" y3="37.7825" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
-<dimension x1="19.685" y1="38.735" x2="17.78" y2="36.83" x3="18.7325" y3="38.1" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
-<dimension x1="17.78" y1="36.83" x2="13.335" y2="36.83" x3="15.5575" y3="29.21" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
-<dimension x1="13.335" y1="36.83" x2="11.7475" y2="38.735" x3="7.62" y3="37.7825" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
-<dimension x1="11.7475" y1="50.165" x2="11.7475" y2="38.735" x3="10.16" y3="44.45" textsize="1.27" textratio="15" layer="51" width="0.127"/>
-<dimension x1="15.24" y1="48.26" x2="34.29" y2="48.26" x3="24.765" y3="50.8" textsize="1.27" textratio="15" layer="51" width="0.127"/>
-<dimension x1="15.24" y1="48.26" x2="15.24" y2="52.07" x3="19.05" y3="50.165" textsize="1.27" textratio="15" layer="51" width="0.127"/>
-<dimension x1="13.335" y1="36.83" x2="11.7475" y2="38.735" x3="12.54125" y3="39.37" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
-<dimension x1="22.86" y1="44.45" x2="34.29" y2="44.45" x3="28.575" y3="45.72" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
+<dimension x1="17.78" y1="50.165" x2="20.32" y2="38.735" x3="14.224" y3="44.45" textsize="1.778" textratio="15" layer="51" dtype="vertical"/>
+<dimension x1="17.78" y1="38.735" x2="33.655" y2="38.735" x3="25.7175" y3="33.02" textsize="1.778" textratio="15" layer="51" dtype="vertical"/>
+<dimension x1="33.655" y1="38.735" x2="36.83" y2="36.83" x3="35.56" y3="37.7825" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
+<dimension x1="33.655" y1="38.735" x2="35.56" y2="36.83" x3="34.6075" y3="38.1" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
+<dimension x1="35.56" y1="36.83" x2="40.005" y2="36.83" x3="37.7825" y3="29.21" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
+<dimension x1="40.005" y1="36.83" x2="41.5925" y2="38.735" x3="45.72" y3="37.7825" textsize="1.27" textratio="15" layer="51" dtype="vertical" width="0.127"/>
+<dimension x1="41.5925" y1="50.165" x2="41.5925" y2="38.735" x3="43.18" y3="44.45" textsize="1.27" textratio="15" layer="51" width="0.127"/>
+<dimension x1="38.1" y1="48.26" x2="19.05" y2="48.26" x3="28.575" y3="50.8" textsize="1.27" textratio="15" layer="51" width="0.127"/>
+<dimension x1="38.1" y1="48.26" x2="38.1" y2="52.07" x3="34.29" y3="50.165" textsize="1.27" textratio="15" layer="51" width="0.127"/>
+<dimension x1="40.005" y1="36.83" x2="41.5925" y2="38.735" x3="40.79875" y3="39.37" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
+<dimension x1="30.48" y1="44.45" x2="19.05" y2="44.45" x3="24.765" y3="45.72" textsize="1.27" textratio="15" layer="51" dtype="horizontal" width="0.127"/>
 </plain>
 <libraries>
 <library name="adafruit">
@@ -716,13 +716,31 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="C1" library="adafruit" package="C0603" value="100n" x="30.48" y="42.8625" rot="MR270"/>
-<element name="C2" library="adafruit" package="C0603" value="100n" x="29.5275" y="40.005" rot="MR180"/>
+<element name="C1" library="adafruit" package="C0603" value="100n" x="30.48" y="42.8625" smashed="yes" rot="MR270">
+<attribute name="NAME" x="29.718" y="43.7515" size="1.27" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="31.115" y="41.4655" size="0.8128" layer="28" font="vector" rot="MR90"/>
+</element>
+<element name="C2" library="adafruit" package="C0603" value="100n" x="29.5275" y="40.005" smashed="yes" rot="MR180">
+<attribute name="NAME" x="28.6385" y="39.243" size="1.27" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="28.0035" y="39.243" size="0.8128" layer="28" font="vector" rot="MR180"/>
+</element>
 <element name="J1" library="SparkFun-Boards" package="UNO_R3_SHIELD" value="ARDUINO_R3_SHIELD" x="0" y="0"/>
-<element name="R1" library="adafruit" package="R0603" value="10k" x="29.5275" y="48.895" rot="MR180"/>
-<element name="R2" library="adafruit" package="R0603" value="10k" x="30.48" y="46.355" rot="MR270"/>
-<element name="U$1" library="melexis" package="MLX90621" value="MLX90621BAD" x="22.86" y="44.45" rot="MR270"/>
-<element name="U$2" library="melexis" package="VREG_SOT23-5" value="ZXCL260" x="27.94" y="44.45" rot="MR180"/>
+<element name="R1" library="adafruit" package="R0603" value="10k" x="29.5275" y="48.895" smashed="yes" rot="MR180">
+<attribute name="NAME" x="28.6385" y="48.006" size="1.27" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="30.4165" y="49.784" size="0.8128" layer="28" font="vector" rot="MR0"/>
+</element>
+<element name="R2" library="adafruit" package="R0603" value="10k" x="30.48" y="46.355" smashed="yes" rot="MR270">
+<attribute name="NAME" x="29.591" y="47.244" size="1.27" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="31.115" y="45.466" size="0.8128" layer="28" font="vector" rot="MR90"/>
+</element>
+<element name="U$1" library="melexis" package="MLX90621" value="MLX90621BAD" x="22.86" y="44.45" smashed="yes" rot="MR270">
+<attribute name="NAME" x="30.48" y="49.53" size="1.27" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="23.368" y="48.006" size="0.8128" layer="28" rot="MR270"/>
+</element>
+<element name="U$2" library="melexis" package="VREG_SOT23-5" value="ZXCL260" x="27.94" y="44.45" smashed="yes" rot="MR180">
+<attribute name="NAME" x="27.051" y="42.291" size="0.4064" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="29.0195" y="44.0055" size="0.8128" layer="28" font="vector" rot="MR0"/>
+</element>
 <element name="SJ1" library="jumper" package="SJ_2" value="" x="44.45" y="27.94" rot="R90"/>
 <element name="S1" library="SparkFun-Electromechanical" package="STANDOFF-ELECTRICAL" value="STANDOFF_ELECTRICAL" x="15.24" y="40.64" rot="R90"/>
 <element name="S2" library="SparkFun-Electromechanical" package="STANDOFF-ELECTRICAL" value="STANDOFF_ELECTRICAL" x="15.24" y="48.26" rot="R90"/>
