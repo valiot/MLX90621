@@ -8,6 +8,9 @@
  *
  *  Adapted by https://github.com/longjos
  *  	Adapted for use with Arduino UNO
+ *
+ *  Adapted again by https://github.com/barucAlmaguer
+ *      Adapted for adq. speed control, ems calibration etc
  */
 
 #ifndef MLX90621_H_

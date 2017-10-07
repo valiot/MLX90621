@@ -1,11 +1,14 @@
 /*
- * MLX90621.cpp
+ * MLX90621.h
  *
- *  Created on: 18.11.2013
- *      Author: Max
+ *  Created on: 08.07.2014
+ *      Author: Max Ritter
  *
  *  Adapted by https://github.com/longjos
  *  	Adapted for use with Arduino UNO
+ *
+ *  Adapted again by https://github.com/barucAlmaguer
+ *      Adapted for adq. speed control, ems calibration etc
  */
 #include "MLX90621.h"
 
