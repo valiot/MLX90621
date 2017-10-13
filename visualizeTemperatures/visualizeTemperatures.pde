@@ -47,6 +47,7 @@ String serialCheck;
 String portName_w = "eensy"; 
 String portName_m = "cu.usbmodem1411"; //cu.usbserial-AJ03MS39
 String portName_m2 = "cu.usbserial-AJ03MS39"; //
+String portName_lin = "ttyUSB"; //
 String portName_win = "COM"; //
 int portNumber;  
 int serialIndex;  
@@ -306,6 +307,8 @@ void findSerialPort() {
     serialIndex = serialCheck.indexOf(portName_w);  
     if (serialIndex > -1) portNumber = i;
     serialIndex = serialCheck.indexOf(portName_win);  
+    if (serialIndex > -1) portNumber = i;
+    serialIndex = serialCheck.indexOf(portName_lin);  
     if (serialIndex > -1) portNumber = i;
   }
 }    
